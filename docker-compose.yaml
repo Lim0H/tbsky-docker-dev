@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: backend
+      target: dev-envs
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./backend:/workdir/server
+    networks:
+      - react-spring
+  frontend:
+    build:
+      context: frontend
+      target: dev-envs
+    ports:
+      - 5173:5173
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./frontend:/code
+    networks:
+      - react-spring
+    depends_on:
+      - backend
+
+
+
+networks:
+  react-spring: {}
